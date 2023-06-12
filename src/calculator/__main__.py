@@ -1,5 +1,45 @@
+# __main__.py
 import argparse
-from Calculator import Calculator
+from calculator import Calculator
+
+calc = Calculator()
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Simple Calculator")
+    parser.add_argument(
+        "operation",
+        choices=["add", "subtract", "multiply", "divide", "root", "reset"],
+        help="The operation to perform",
+    )
+    parser.add_argument(
+        "value", type=float, nargs="?", default=0, help="The value to operate on"
+    )
+
+    args = parser.parse_args()
+
+    # this variable is used to process the command line input once
+    init_call = True
+    while True:
+        if init_call:
+            process_operation(args.operation, args.value)
+            init_call = False
+        exit_input = input(
+            "Type 'exit' to quit the calculator or enter the new operation: "
+        )
+        if exit_input.lower() == "exit":
+            break
+        if len(exit_input.split(" ")) > 1:
+            args.operation = exit_input.split(" ")[0]
+            try:
+                args.value = float(exit_input.split(" ")[1])
+            except ValueError as e:
+                print(e)
+                continue
+            process_operation(args.operation, args.value)
+        else:
+            args.operation = exit_input.split(" ")[0]
+            process_operation(args.operation, args.value)
 
 
 def process_operation(operation: str, value: float) -> None:
@@ -23,37 +63,4 @@ def process_operation(operation: str, value: float) -> None:
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Simple Calculator")
-    parser.add_argument(
-        "operation",
-        choices=["add", "subtract", "multiply", "divide", "root", "reset"],
-        help="The operation to perform",
-    )
-    parser.add_argument(
-        "value", type=float, nargs="?", default=0, help="The value to operate on"
-    )
-
-    args = parser.parse_args()
-    calc = Calculator()
-    # this variable is used to process the command line input once
-    init_call = True
-    while True:
-        if init_call:
-            process_operation(args.operation, args.value)
-            init_call = False
-        exit_input = input(
-            "Type 'exit' to quit the calculator or enter the new operation: "
-        )
-        if exit_input.lower() == "exit":
-            break
-        if len(exit_input.split(" ")) > 1:
-            args.operation = exit_input.split(" ")[0]
-            try:
-                args.value = float(exit_input.split(" ")[1])
-            except ValueError as e:
-                print(e)
-                continue
-            process_operation(args.operation, args.value)
-        else:
-            args.operation = exit_input.split(" ")[0]
-            process_operation(args.operation, args.value)
+    main()

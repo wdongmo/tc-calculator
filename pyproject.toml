@@ -23,7 +23,7 @@ requires-python = ">=3.7"
     dev   = ["black","mypy", "unittest"]
 
     [project.scripts]
-    realpython = "calculator.__main__:main"
+    tc-calculator = "calculator.__main__:main"
 
     [project.urls]
     repository    = "https://github.com/wdongmo/tc-calculator"
