@@ -1,6 +1,6 @@
 # __main__.py
 import argparse
-from calculator import Calculator
+from calculator.calculator import Calculator
 
 calc = Calculator()
 
